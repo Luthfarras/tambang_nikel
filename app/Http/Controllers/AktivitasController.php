@@ -81,7 +81,11 @@ class AktivitasController extends Controller
      */
     public function destroy(Aktivitas $aktivitas)
     {
-        $aktivitas->delete();
-        return redirect('aktivitas');
+        if (Auth::user()->role == 'Admin') {
+            $aktivitas->delete();
+            return redirect('aktivitas')->with('success', 'Berhasil Hapus Log Aktivitas');
+        } else {
+            return redirect('aktivitas')->with('error', 'Anda tidak memiliki akses!');
+        }
     }
 }
